@@ -1,3 +1,4 @@
+C
 library("tidyverse")
 library("rtracklayer")
 library("biomaRt")
@@ -19,27 +20,27 @@ nanocompore <- left_join(nanocompore, id2name, by=c("ref_id"="ensembl_transcript
 
 
 volcano <- nanocompore %>% { ggplot(., aes(x=LOR, y=-log10(GMM_pvalue))) + 
-	geom_point(size=0.5, alpha=0.8) + 
-	ggrepel::geom_text_repel(data=top_n(., 20, -log10(GMM_pvalue)), size=3, aes(label=paste0(hgnc_symbol, "\n", ref_kmer, " (", pos, ")"))) +
+	geom_point(size=0.9, alpha=0.8) + 
+	ggrepel::geom_text_repel(data=top_n(., 20, -log10(GMM_pvalue)), size=4, aes(label=paste0(hgnc_symbol, "\n", ref_kmer, " (", pos, ")"))) +
 	xlab("Logistic regression\nodds ratio") +
 	ylab("Nanocompore p-value (-log10)") +
-	theme_bw()
+	theme_bw(22)
 }
 
 
 volcano_abs <- nanocompore %>% { ggplot(., aes(x=abs(LOR), y=-log10(GMM_pvalue))) + 
-	geom_point(size=0.5, alpha=0.8) + 
-	ggrepel::geom_text_repel(data=top_n(., 20, -log10(GMM_pvalue)), size=3, aes(label=paste0(hgnc_symbol, "\n", ref_kmer, " (", pos, ")"))) +
+	geom_point(size=0.9, alpha=0.8) + 
+	ggrepel::geom_text_repel(data=top_n(., 20, -log10(GMM_pvalue)), size=4, aes(label=paste0(hgnc_symbol, "\n", ref_kmer, " (", pos, ")"))) +
 	xlab("Logistic regression\nodds ratio") +
 	ylab("Nanocompore p-value (-log10)") +
-	theme_bw()
+	theme_bw(22)
 }
 
 
-pdf(paste0(RESULTS,"/volcano_plot.pdf"), height=10, width=10)
+pdf(paste0(RESULTS,"/volcano_plot.pdf"), height=10, width=12)
 print(volcano)
 dev.off()
 
-pdf(paste0(RESULTS,"/volcano_abs_lor_plot.pdf"), height=10, width=10)
+pdf(paste0(RESULTS,"/volcano_abs_lor_plot.pdf"), height=10, width=12)
 print(volcano_abs)
 dev.off()
